@@ -8,14 +8,20 @@
 		<version>2.5.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>br.com.felixgilioli</groupId>
 	<artifactId>release-notifier</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>release-notifier</name>
 	<description>Project responsible for notifying other systems (discord, email, slack, teams, etc) about release notes.</description>
+
 	<properties>
 		<java.version>16</java.version>
+		<sonar.projectKey>felixgilioli_release-notifier</sonar.projectKey>
+		<sonar.organization>felixgilioli</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
