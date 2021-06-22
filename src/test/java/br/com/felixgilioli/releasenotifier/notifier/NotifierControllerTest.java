@@ -97,7 +97,7 @@ class NotifierControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(notifierService).send(messageInfo);
+        verify(notifierService).send(any());
     }
 
 }
