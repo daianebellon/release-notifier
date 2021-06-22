@@ -19,8 +19,8 @@ public class NotifierService {
         Objects.requireNonNull(info);
 
         notifiers.stream()
-                .filter(notifier -> info.targets().contains(notifier.getTarget()))
+                .filter(notifier -> info.targets.contains(notifier.getTarget()))
                 .parallel()
-                .forEach(notifier -> notifier.send(info.message()));
+                .forEach(notifier -> notifier.send(info.message));
     }
 }
