@@ -20,7 +20,7 @@ public class NotifierService {
 
         notifiers.stream()
                 .filter(notifier -> info.targets.contains(notifier.getTarget()))
-                .parallel()
-                .forEach(notifier -> notifier.send(info.message));
+                .map(notifier -> new Thread(() -> notifier.send(info.message)))
+                .forEach(Thread::start);
     }
 }

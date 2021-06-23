@@ -4,19 +4,22 @@ import br.com.felixgilioli.releasenotifier.notifier.impl.DiscordNotifierImpl;
 import br.com.felixgilioli.releasenotifier.notifier.impl.EmailNotifierImpl;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationTarget;
+import org.awaitility.Durations;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Set;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 class NotifierServiceTest {
 
     private NotifierService notifierService;
@@ -57,6 +60,8 @@ class NotifierServiceTest {
         var message = "message";
         var notificationMessageInfo = new NotificationMessageInfo(message, Set.of(NotificationTarget.DISCORD));
         notifierService.send(notificationMessageInfo);
+
+        await().pollDelay(Durations.ONE_SECOND).until(() -> true);
 
         verify(emailNotifier, never()).send(message);
         verify(discordNotifier).send(message);

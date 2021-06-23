@@ -2,14 +2,27 @@ package br.com.felixgilioli.releasenotifier.notifier.impl;
 
 import br.com.felixgilioli.releasenotifier.notifier.Notifier;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationTarget;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailNotifierImpl implements Notifier {
 
+    private final JavaMailSender mailSender;
+
+    public EmailNotifierImpl(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
     @Override
     public void send(String message) {
-        System.out.println("calling email notifier");
+        var mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("felixgilioli1@gmail.com");
+        mailMessage.setTo("felix_gilioli@hotmail.com");
+        mailMessage.setSubject("Teste");
+        mailMessage.setText(message);
+        mailSender.send(mailMessage);
     }
 
     @Override
