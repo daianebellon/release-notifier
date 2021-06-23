@@ -18,7 +18,6 @@ public class EmailNotifierImpl implements Notifier {
     @Override
     public void send(String message) {
         var mailMessage = new SimpleMailMessage();
-        mailMessage.setFrom("felixgilioli1@gmail.com");
         mailMessage.setTo("felix_gilioli@hotmail.com");
         mailMessage.setSubject("Teste");
         mailMessage.setText(message);
