@@ -3,6 +3,8 @@ package br.com.felixgilioli.releasenotifier.notifier;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationTarget;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,21 +40,10 @@ class NotifierControllerTest {
         verify(notifierService, never()).send(messageInfo);
     }
 
-    @Test
-    void givenNotificationWithEmptyMessageReturnsValidationError() throws Exception {
-        var messageInfo = new NotificationMessageInfo("", Set.of(NotificationTarget.EMAIL));
-
-        mockMvc.perform(post("/notifier/send")
-                        .content(asJsonString(messageInfo))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-
-        verify(notifierService, never()).send(messageInfo);
-    }
-
-    @Test
-    void givenNotificationWithBlankMessageReturnsValidationError() throws Exception {
-        var messageInfo = new NotificationMessageInfo("  ", Set.of(NotificationTarget.EMAIL));
+    @ParameterizedTest
+    @ValueSource(strings = {"", "   "})
+    void givenNotificationWithBlankMessageReturnsValidationError(String value) throws Exception {
+        var messageInfo = new NotificationMessageInfo(value, Set.of(NotificationTarget.EMAIL));
 
         mockMvc.perform(post("/notifier/send")
                         .content(asJsonString(messageInfo))
