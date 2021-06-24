@@ -1,22 +1,35 @@
 package br.com.felixgilioli.releasenotifier.notifier.notification;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.Set;
+import java.util.Objects;
 
 public class NotificationMessageInfo {
 
-        @NotBlank(message = "message may not be blank")
-        public String message;
+    private final String message;
+    private final String subject;
 
-        @NotEmpty(message = "targets may not be empty")
-        public Set<NotificationTarget> targets;
+    public NotificationMessageInfo(String message, String subject) {
+        this.message = Objects.requireNonNull(message);
+        this.subject = Objects.requireNonNull(subject);
+    }
 
-        public NotificationMessageInfo() {
-        }
+    public String getMessage() {
+        return message;
+    }
 
-        public NotificationMessageInfo(String message, Set<NotificationTarget> targets) {
-                this.message = message;
-                this.targets = targets;
-        }
+    public String getSubject() {
+        return subject;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NotificationMessageInfo that = (NotificationMessageInfo) o;
+        return message.equals(that.message) && subject.equals(that.subject);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(message, subject);
+    }
 }

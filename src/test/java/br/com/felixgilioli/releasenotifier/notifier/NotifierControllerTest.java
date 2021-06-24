@@ -1,6 +1,6 @@
 package br.com.felixgilioli.releasenotifier.notifier;
 
-import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
+import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfoInput;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationTarget;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,7 +30,7 @@ class NotifierControllerTest {
 
     @Test
     void givenNotificationWithNullMessageReturnsValidationError() throws Exception {
-        var messageInfo = new NotificationMessageInfo(null, Set.of(NotificationTarget.EMAIL));
+        var messageInfo = new NotificationMessageInfoInput(null, "test", Set.of(NotificationTarget.EMAIL));
 
         mockMvc.perform(post("/notifier/send")
                         .content(asJsonString(messageInfo))
@@ -43,7 +43,7 @@ class NotifierControllerTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "   "})
     void givenNotificationWithBlankMessageReturnsValidationError(String value) throws Exception {
-        var messageInfo = new NotificationMessageInfo(value, Set.of(NotificationTarget.EMAIL));
+        var messageInfo = new NotificationMessageInfoInput(value, "test", Set.of(NotificationTarget.EMAIL));
 
         mockMvc.perform(post("/notifier/send")
                         .content(asJsonString(messageInfo))
@@ -55,7 +55,7 @@ class NotifierControllerTest {
 
     @Test
     void givenNotificationWithNullTargetsReturnsValidationError() throws Exception {
-        var messageInfo = new NotificationMessageInfo("hello", null);
+        var messageInfo = new NotificationMessageInfoInput("hello", "test", null);
 
         mockMvc.perform(post("/notifier/send")
                         .content(asJsonString(messageInfo))
@@ -67,7 +67,7 @@ class NotifierControllerTest {
 
     @Test
     void givenNotificationWithEmptyTargetsReturnsValidationError() throws Exception {
-        var messageInfo = new NotificationMessageInfo("hello", Collections.emptySet());
+        var messageInfo = new NotificationMessageInfoInput("hello", "test", Collections.emptySet());
 
         mockMvc.perform(post("/notifier/send")
                         .content(asJsonString(messageInfo))
@@ -79,7 +79,7 @@ class NotifierControllerTest {
 
     @Test
     void givenValidNotificationReturnsStatusOk() throws Exception {
-        var messageInfo = new NotificationMessageInfo("hello", Set.of(NotificationTarget.EMAIL));
+        var messageInfo = new NotificationMessageInfoInput("hello", "test", Set.of(NotificationTarget.EMAIL));
 
         doNothing().when(notifierService).send(messageInfo);
 

@@ -1,6 +1,7 @@
 package br.com.felixgilioli.releasenotifier.notifier;
 
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
+import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfoInput;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +16,14 @@ public class NotifierService {
         this.notifiers = notifiers;
     }
 
-    public void send(NotificationMessageInfo info) {
+    public void send(NotificationMessageInfoInput info) {
         Objects.requireNonNull(info);
+
+        var notificationMessageInfo = new NotificationMessageInfo(info.message, info.subject);
 
         notifiers.stream()
                 .filter(notifier -> info.targets.contains(notifier.getTarget()))
-                .map(notifier -> new Thread(() -> notifier.send(info.message)))
+                .map(notifier -> new Thread(() -> notifier.send(notificationMessageInfo)))
                 .forEach(Thread::start);
     }
 }

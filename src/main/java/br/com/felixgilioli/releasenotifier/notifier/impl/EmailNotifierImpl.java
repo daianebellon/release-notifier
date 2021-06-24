@@ -1,6 +1,7 @@
 package br.com.felixgilioli.releasenotifier.notifier.impl;
 
 import br.com.felixgilioli.releasenotifier.notifier.Notifier;
+import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
 import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationTarget;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,11 +17,11 @@ public class EmailNotifierImpl implements Notifier {
     }
 
     @Override
-    public void send(String message) {
+    public void send(NotificationMessageInfo messageInfo) {
         var mailMessage = new SimpleMailMessage();
         mailMessage.setTo("felix_gilioli@hotmail.com");
-        mailMessage.setSubject("Teste");
-        mailMessage.setText(message);
+        mailMessage.setSubject(messageInfo.getSubject());
+        mailMessage.setText(messageInfo.getMessage());
         mailSender.send(mailMessage);
     }
 

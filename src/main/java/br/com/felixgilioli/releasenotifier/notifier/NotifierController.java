@@ -1,6 +1,6 @@
 package br.com.felixgilioli.releasenotifier.notifier;
 
-import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfo;
+import br.com.felixgilioli.releasenotifier.notifier.notification.NotificationMessageInfoInput;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ public class NotifierController {
     }
 
     @PostMapping("/send")
-    public void send(@Valid @RequestBody NotificationMessageInfo info) {
+    public void send(@Valid @RequestBody NotificationMessageInfoInput info) {
         notifierService.send(info);
     }
 }
